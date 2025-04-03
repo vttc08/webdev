@@ -52,6 +52,64 @@ function startGame() {
     }, 20000);
 }
 
+
+let timeLeft = 2000; // 20 seconds
+let isPaused = false;
+let t = document.getElementById("timer");
+let resume = document.getElementById("resume");
+let pause = document.getElementById("pause");
+let menuOuter = document.getElementById("menu-outer");
+
+resume.addEventListener("click", function() {
+    resumeGame();
+})
+
+function pauseAttribute(v) {
+    if (v == "pause") {
+        pause.style.opacity = 1;
+        pause.style.pointerEvents= "initial";
+        menuOuter.style.pointerEvents = "initial";
+    } else if (v == "resume") {
+        pause.style.opacity = 0.1;
+        pause.style.pointerEvents= "none";
+        menuOuter.style.pointerEvents = "none";
+    }
+}
+
+let timer = setInterval(() => {
+    if (!isPaused) {
+        timeLeft--;
+        
+    } else {
+    }
+    t.innerHTML = timeLeft;
+    if (timeLeft <= 0) {
+        clearInterval(timer);
+        endGame();
+    }
+}, 1000)
+
+function resumeGame() {
+    isPaused = false;
+    t.innerHTML = timeLeft;
+    pauseAttribute("resume");
+}
+
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+        if (isPaused) {
+            resumeGame();
+        } else {
+            isPaused = true;
+            t.innerHTML = "PAUSED";
+            pauseAttribute("pause");
+
+        }
+    }
+}
+    
+    );
+
 function endGame() {
     alert("The game is over! Your score is " + document.getElementById("score").innerHTML);
 }
