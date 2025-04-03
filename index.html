@@ -5,27 +5,27 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="grid">
-        <div class="box" onclick="wrong()"></div>
-        <div class="box" onclick="wrong()"></div>
-        <div class="box" onclick="wrong()"></div>
-        <div class="box" onclick="wrong()"></div>
-        <div class="box" onclick="wrong()"></div>
-        <div class="box" onclick="wrong()"></div>
-        <div class="box" onclick="wrong()"></div>
-        <div class="box" onclick="wrong()"></div>
-        <div class="box" onclick="wrong()"></div>
+    <div class="flex">
+        <div class="grid shake">
+            <div class="box"></div>
+        </div>
+
+
     </div>
+    <h1 id="score">0</h1>
+    <h1 id="timer">100</h1>
     <div id="menu-outer">
         <div class="menu" id="pause">
             <h1>Paused</h1>
             <button id="resume">Resume</button>
         </div>
+        <div class="menu" id="config">
+            <h1>Configuration</h1>
+            <input type="number" id="size" placeholder="Grid Size" min="1" max="10">
+            <input type="number" id="time" placeholder="Time between spanwing in ms" min="1" max="1000">
+            <button id="start">Start</button>
+        </div>
     </div>
-    <h1 id="score">0</h1>
-    <h1 id="timer">100</h1>
-
-    
 </body>
 <link rel="stylesheet" href="styles.css">
 <script src="script.js" type="text/javascript"></script>
