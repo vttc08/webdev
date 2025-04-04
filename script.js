@@ -2,8 +2,10 @@ let cur_rand = 1;
 
 // Initial Configuration
 let configuration = {
-    size: 5,
-    time: 10,
+    
+        size: 3,       
+        time: 2000,   
+        gametime: 20   
 }
 
 let total = configuration.size ** 2; // total number of boxes
@@ -33,16 +35,18 @@ start.addEventListener("click", function() {
     size = parseInt(size.value);
     time = parseInt(time.value);
     gametime = parseInt(gametime.value);
-    config.style.opacity = 0.1;
+    config.style.display = "none";
     // config.style.top = "-100%";
     config.style.pointerEvents = "none";
     createGrid(size);
     total = size ** 2;
     startEventListener();
     gc();
+    startTimer();
     timeLeft = gametime;
     isPaused = false;
 })
+
 
 
 let grid = document.querySelector(".grid");
@@ -156,7 +160,7 @@ function wrong(t) {
 // };
 
 
-let thescore = 0
+let thescore = 0;
 
 function updateScore(s) {
     let score = document.getElementById("score");
@@ -190,40 +194,45 @@ function pauseAttribute(v) {
     }
 }
 
-let timer = setInterval(() => {
-    if (!isPaused) {
-        timeLeft--;
-        
-    } else {
-    }
-    t.innerHTML = timeLeft;
-    if (timeLeft <= 0) {
-        clearInterval(timer);
-        endGame();
-    }
-    if (thescore == 10) {
-        giantmoleappear();
-    }
-}, 1000)
-
-function giantmoleappear() {
-    let mole = document.getElementById("giant");
-    mole.style.top = "100vh";
-    mole.style.left = "40vw";
-    let top = 100;
-    let molei = setInterval(() => {
-        top-=3;
-        left = Math.floor(Math.random() * 20)+40 + "vw";
-        toprandom = Math.floor(Math.random() * 3);
-        mole.style.top = top+ toprandom + "vh";
-        mole.style.left = left;
-        if (top <= -100) {
-            clearInterval(molei);
+let giantMoleAppeared = false;
+function startTimer(){
+    let timer = setInterval(() => {
+        if (!isPaused) {
+            timeLeft--;
+            console.log(thescore + "is the score");
+        } else {
         }
-    }, 50);
-
+        t.innerHTML = timeLeft;
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            endGame();
+        }
+        if (thescore >= 10 && thescore <= 15) {
+            if (!giantMoleAppeared) {
+                giantMoleAppeared = true;
+                giantmoleappear();
+            }
+        }
+    }, 1000)
 }
 
+function giantmoleappear() {
+    clearInterval(gameClock); // 停止小地鼠
+    Array.from(boxes).forEach(box => box.removeAttribute("id"));
+
+    // 显示大地鼠
+    let mole = document.getElementById("giant");
+    mole.style.top = "0";
+    mole.style.left = "0";
+
+    // 3秒后隐藏大地鼠，恢复小地鼠
+    setTimeout(() => {
+        mole.style.top = "-100vh";
+        mole.style.left = "100vw";
+        setRandom(); // 重新设置随机地鼠
+        gameClock = initiateClock(); // 重启刷新计时器
+    }, 3000);
+}
 // Add CSS animations
 
 
