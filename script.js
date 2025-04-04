@@ -1,12 +1,12 @@
 let cur_rand = 1;
 
-// Rewrite
+// Initial Configuration
 let configuration = {
     size: 5,
-    timebw: 10,
+    time: 10,
 }
 
-total = configuration.size ** 2;
+let total = configuration.size ** 2; // total number of boxes
 createGrid(configuration.size);
 
 function createGrid(s) {
@@ -21,32 +21,39 @@ function createGrid(s) {
     }
 }
 
+// Customized Configuration
 let config = document.getElementById("config");
-config.style.opacity = 1;
+config.style.opacity = 0.8;
 config.style.pointerEvents = "initial";
-let size = document.getElementById("size");
-let time = document.getElementById("time");
-time = parseInt(time.value);
-size = parseInt(size.value);
 let start = document.getElementById("start");
+let time = document.getElementById("time"); // idk why putting it here works but for size it doesn't
+let gametime = document.getElementById("gametime");
 start.addEventListener("click", function() {
+    let size = document.getElementById("size");
+    size = parseInt(size.value);
+    time = parseInt(time.value);
+    gametime = parseInt(gametime.value);
     config.style.opacity = 0.1;
-    config.style.top = "-100%";
+    // config.style.top = "-100%";
     config.style.pointerEvents = "none";
     createGrid(size);
     total = size ** 2;
     startEventListener();
-    
+    gc();
+    timeLeft = gametime;
+    isPaused = false;
 })
 
 
 let grid = document.querySelector(".grid");
-
-
+let locked = false;
 let boxes = document.getElementsByClassName("box");
+let body = document.getElementsByTagName("body");
+let shake = document.querySelector(".shake");
 
 grid.addEventListener("click", function(e) {
-    if (e.target.className !== "box") {
+    if (!e.target.className.includes("box")) {
+        console.log(e.target.className);
         wrong(e.target);
     }
 })
@@ -56,8 +63,11 @@ function initiateClock() {
     }, time);
     return gameClock;
 }
-let gameClock = initiateClock();
-let locked = false;
+
+function gc() {
+    gameClock = initiateClock();
+}
+// let gameClock = initiateClock();
 
 function startEventListener() {
     for (let i = 0; i <  boxes.length; i++) {
@@ -102,18 +112,13 @@ function setRandom() {
         box.removeAttribute("id");
     })
     boxes[random].setAttribute("id", "selected");
-
+    // animation
+    boxes[random].classList.add("selected-ain");
+    let dur = Math.min(time/2, 1000);
+    setTimeout(() => {
+        boxes[random].classList.remove("selected-ain");
+    }, dur);
 }
-// function myfunc() {
-//     let selected = document.getElementById("selected");
-//     selected.removeAttribute("onclick");
-//     selected.setAttribute("onclick","wrong()")
-//     selected.removeAttribute("id");
-//     setrandom();
-//     updateScore();
-// }
-let body = document.getElementsByTagName("body");
-let shake = document.querySelector(".shake");
 
 function wrong(t) {
     shake.classList.add("shake-animation");
@@ -126,6 +131,7 @@ function wrong(t) {
         locked = false;
         shake.style.cursor = 'auto';
     }, 1000);
+    updateScore(-1);
     // setTimeout(() => {
     //     body[0].style.animationPlayState = 'paused';
     // }, 300);
@@ -161,8 +167,8 @@ function updateScore(s) {
 
 
  // 20 seconds
-let timeLeft = 2000;
-let isPaused = false;
+let timeLeft = "Configuring...";
+let isPaused = true;
 let t = document.getElementById("timer");
 let resume = document.getElementById("resume");
 let pause = document.getElementById("pause");
@@ -195,7 +201,31 @@ let timer = setInterval(() => {
         clearInterval(timer);
         endGame();
     }
+    if (thescore == 10) {
+        giantmoleappear();
+    }
 }, 1000)
+
+function giantmoleappear() {
+    let mole = document.getElementById("giant");
+    mole.style.top = "100vh";
+    mole.style.left = "40vw";
+    let top = 100;
+    let molei = setInterval(() => {
+        top-=3;
+        left = Math.floor(Math.random() * 20)+40 + "vw";
+        toprandom = Math.floor(Math.random() * 3);
+        mole.style.top = top+ toprandom + "vh";
+        mole.style.left = left;
+        if (top <= -100) {
+            clearInterval(molei);
+        }
+    }, 50);
+
+}
+
+// Add CSS animations
+
 
 function resumeGame() {
     isPaused = false;
@@ -214,12 +244,17 @@ document.addEventListener("keydown", function(e) {
 
         }
     }
+    if (e.key === "F12") {
+        endGame();
+        e.preventDefault();
+    }
 }
     
     );
 
 function endGame() {
     alert("The game is over! Your score is " + document.getElementById("score").innerHTML);
+    window.location.reload();
 }
 
 // startGame();

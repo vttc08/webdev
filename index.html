@@ -21,10 +21,15 @@
         </div>
         <div class="menu" id="config">
             <h1>Configuration</h1>
-            <input type="number" id="size" placeholder="Grid Size" min="1" max="10">
-            <input type="number" id="time" placeholder="Time between spanwing in ms" min="1" max="1000">
+            <input type="number" id="size" placeholder="Grid Size" min="1" max="10"><br>
+            <input type="number" id="time" placeholder="Time between spanwing in ms" min="1" max="1000"><br>
+            <input type="number" id="gametime" placeholder="The time of the game in seconds" min="1" max="1000"><br>
             <button id="start">Start</button>
         </div>
+        
+    </div>
+    <div id="giant-outer">
+        <div id="giant" onclick="updateScore(2)"></div>
     </div>
 </body>
 <link rel="stylesheet" href="styles.css">
