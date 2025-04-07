@@ -8,6 +8,14 @@ let configuration = {
         gametime: 20   
 }
 
+let cursor = {
+    mole: "mallet",
+    trainer: "hit",
+    python: "shell",
+    golang: "shell",
+    rust: "shell",
+}
+
 let total = configuration.size ** 2; // total number of boxes
 createGrid(configuration.size);
 
@@ -45,6 +53,10 @@ start.addEventListener("click", function() {
     startTimer();
     timeLeft = gametime;
     isPaused = false;
+    let mole_theme = document.getElementById("mole_theme");
+    cursorStyle = cursor[mole_theme.value];
+    grid.style.cursor = `url("${cursorStyle}.png"), auto`;
+    updateTheme(mole_theme.value);
 })
 
 
@@ -54,12 +66,24 @@ let locked = false;
 let boxes = document.getElementsByClassName("box");
 let body = document.getElementsByTagName("body");
 let shake = document.querySelector(".shake");
+let cursorStyle = "hit";
+// let moleStyle = "trainer";
+function updateTheme(moleStyle) {
+    var r = document.querySelector(':root');
+    var rs = getComputedStyle(r);
+    r.style.setProperty('--url', `url("${moleStyle}.png")`);
+};
+
 
 grid.addEventListener("click", function(e) {
+    grid.style.cursor = `url("${cursorStyle}-hit.png"), auto`;
     if (!e.target.className.includes("box")) {
         console.log(e.target.className);
         wrong(e.target);
-    }
+    } 
+    setTimeout(() => {
+        grid.style.cursor = `url("${cursorStyle}.png"), auto`;
+    }, 250);
 })
 function initiateClock() {
     let gameClock = setInterval(() => {
@@ -133,7 +157,7 @@ function wrong(t) {
         shake.classList.remove("shake-animation");
         t.removeAttribute('id');
         locked = false;
-        shake.style.cursor = 'auto';
+        shake.style.cursor = `url("${cursorStyle}.png"), auto`;;
     }, 1000);
     updateScore(-1);
     // setTimeout(() => {
@@ -199,7 +223,6 @@ function startTimer(){
     let timer = setInterval(() => {
         if (!isPaused) {
             timeLeft--;
-            console.log(thescore + "is the score");
         } else {
         }
         t.innerHTML = timeLeft;

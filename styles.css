@@ -6,6 +6,7 @@
     height: 75vh;
     width: 100vw;
     position: relative;
+    cursor: not-allowed;
 }
 .grid {
     display: grid;
@@ -17,9 +18,8 @@
     position: relative;
     grid-gap: 5px;
     border: 1px solid black;
-    background: #ecffa5;
-   
-    
+    background: #69d949;
+    cursor: url("mallet.png"), auto;
 }
 .box {
     color: red;
@@ -28,8 +28,13 @@
     background-position: center;
     background-size: cover;
 }
+:root {
+    --url: url("mole.png");
+    --blue: #0000ff;
+}
 #selected {
-    background-image: url("mole.png");
+    background-image: var(--url);
+    /* background-image: url("mole.png"); */
     background-position: center;
     background-size: cover;
 }
@@ -125,17 +130,17 @@ body {
 }
     
 @keyframes shake {
-    0% { transform: translate(1px, 1px); opacity: 1; }
-    10% { transform: translate(-1px, -2px); opacity: 0.8; }
-    20% { transform: translate(-3px, 0px); opacity: 0.6; }
-    30% { transform: translate(3px, 2px); opacity: 0; }
-    40% { transform: translate(1px, -1px); opacity: 0.8; }
-    50% { transform: translate(-1px, 2px); opacity: 0.6; }
-    60% { transform: translate(-3px, 1px); opacity: 1; }
-    70% { transform: translate(3px, 1px); opacity: 0.8; }
-    80% { transform: translate(-1px, -1px); opacity: 0.6; }
-    90% { transform: translate(1px, 2px); opacity: 0; }
-    100% { transform: translate(1px, -2px); opacity: 0.8; }
+    0% { transform: translate(1px, 1px); opacity: 0.95; }
+    10% { transform: translate(-1px, -2px); opacity: 0.9; }
+    20% { transform: translate(-3px, 0px); opacity: 0.85; }
+    30% { transform: translate(3px, 2px); opacity: 0.9; }
+    40% { transform: translate(1px, -1px); opacity: 0.95; }
+    50% { transform: translate(-1px, 2px); opacity: 0.9; }
+    60% { transform: translate(-3px, 1px); opacity: 0.85; }
+    70% { transform: translate(3px, 1px); opacity: 0.9; }
+    80% { transform: translate(-1px, -1px); opacity: 0.95; }
+    90% { transform: translate(1px, 2px); opacity: 0.9; }
+    100% { transform: translate(1px, -2px); opacity: 0.95; }
 }
 
 @keyframes flash {
