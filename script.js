@@ -33,7 +33,6 @@ function createGrid(s) {
 
 // Customized Configuration
 let config = document.getElementById("config");
-config.style.opacity = 0.8;
 config.style.pointerEvents = "initial";
 let start = document.getElementById("start");
 let time = document.getElementById("time"); // idk why putting it here works but for size it doesn't
@@ -212,7 +211,7 @@ function pauseAttribute(v) {
         pause.style.pointerEvents= "initial";
         menuOuter.style.pointerEvents = "initial";
     } else if (v == "resume") {
-        pause.style.opacity = 0.1;
+        pause.style.opacity = 0;
         pause.style.pointerEvents= "none";
         menuOuter.style.pointerEvents = "none";
     }
