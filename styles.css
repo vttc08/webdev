@@ -1,3 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'roboto', sans-serif;
+}
+
+@media screen and (max-width: 400px), (max-height: 750px) {
+    #start {
+        display: none;
+    }
+    #config::before {
+        content: "The game cannot run in this window, please use a larger window.";
+    }
+}
 
 .flex {
     display: flex;
@@ -6,20 +20,24 @@
     height: 75vh;
     width: 100vw;
     position: relative;
+    cursor: not-allowed;
+    background-image: url("texture.png");
+    background-size: cover;
 }
 .grid {
     display: grid;
     grid-template-columns: repeat(3,1fr);
     grid-template-rows: repeat(3,1fr);
-    height: 50vh;
-    width: 50%;
+    height: 60vh;
+    width: 60vh;
+    min-width: 445px;
     margin: 0 auto;
     position: relative;
     grid-gap: 5px;
-    border: 1px solid black;
-    background: #ecffa5;
-   
-    
+    border: 10px inset rgba(0, 0, 0,0.5);
+    background: #69d949;
+    cursor: url("mallet.png"), auto;
+    flex-shrink: 0;
 }
 .box {
     color: red;
@@ -27,9 +45,15 @@
     background-image: url("grass.png");
     background-position: center;
     background-size: cover;
+    max-width: 20vh;
+}
+:root {
+    --url: url("mole.png");
+    --blue: #0000ff;
 }
 #selected {
-    background-image: url("mole.png");
+    background-image: var(--url);
+    /* background-image: url("mole.png"); */
     background-position: center;
     background-size: cover;
 }
@@ -79,34 +103,112 @@ input {
 }
 
 .menu {
-    background-color: red;
+    background-image: url("menu.png");
+    background-size: cover;
     position: absolute;
     z-index: 1;
     top: 50%;
     left: 50%;
     margin: 0 auto;
     transform: translate(-50%, -50%);
+    border-radius: 15px;  /* 圆角效果 */
 }
 
 #config {
-    background-color: red;  /* 确保红色背景 */
+    background-color: #86ef54;  /* 确保红色背景 */
     opacity: 1;  /* 完全不透明 */
     padding: 20px;  /* 添加内边距 */
-    border-radius: 10px;  /* 圆角效果 */
-    margin-top: -250px; 
-    width: 40%
+
+    margin-top: -60px; 
+    width: 60%;
+}
+
+#config > select, input[type="text"] {
+    font-size: 1.5rem;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #ccfccc;
+    width: 75%;
+}
+
+#config > input {
+    background-color: #ccfccc;
+    color: #333;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+#config > button {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2rem;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 15px;
+    background-color: #1be7ff;
+    box-shadow: #333 5px 5px 0px;
+}
+#config > button:hover {
+    background-color: #ffb800;
+    box-shadow: #333 5px 5px 0px;
+    cursor: pointer;
 }
 
 #pause {
-    height: 75%;
-    width: 75%;
+    height: 85%;
+    width: 60%;
     opacity: 0;
     z-index: 2;
     pointer-events: none;
+    margin: 0 auto;
+    text-align: center;;
 }
+
+.pause-wrapper {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: space-around;
+    height: 100%;
+}
+.pause-wrapper button {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2rem;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 15px;
+    background-color: #1be7ff;
+    box-shadow: #333 5px 5px 0px;
+    margin: 30px 0;
+}
+
+.pause-wrapper button:hover {
+    background-color: #ffb800;
+    box-shadow: #333 5px 5px 0px;
+    cursor: pointer;
+}
+
 
 body {
     overflow: hidden;
+}
+.filler {
+    height:100%;
+    width: 500px;
+}
+#f1 {
+    background-image: url('filler1.png');
+    background-size: cover;
+}
+#f2 {
+    background-image: url('filler2.png');
+    background-size: cover;
 }
 .shake {
     /* Start the shake animation and make the animation last for 0.5 seconds */
@@ -125,17 +227,17 @@ body {
 }
     
 @keyframes shake {
-    0% { transform: translate(1px, 1px); opacity: 1; }
-    10% { transform: translate(-1px, -2px); opacity: 0.8; }
-    20% { transform: translate(-3px, 0px); opacity: 0.6; }
-    30% { transform: translate(3px, 2px); opacity: 0; }
-    40% { transform: translate(1px, -1px); opacity: 0.8; }
-    50% { transform: translate(-1px, 2px); opacity: 0.6; }
-    60% { transform: translate(-3px, 1px); opacity: 1; }
-    70% { transform: translate(3px, 1px); opacity: 0.8; }
-    80% { transform: translate(-1px, -1px); opacity: 0.6; }
-    90% { transform: translate(1px, 2px); opacity: 0; }
-    100% { transform: translate(1px, -2px); opacity: 0.8; }
+    0% { transform: translate(1px, 1px); opacity: 0.95; }
+    10% { transform: translate(-1px, -2px); opacity: 0.9; }
+    20% { transform: translate(-3px, 0px); opacity: 0.85; }
+    30% { transform: translate(3px, 2px); opacity: 0.9; }
+    40% { transform: translate(1px, -1px); opacity: 0.95; }
+    50% { transform: translate(-1px, 2px); opacity: 0.9; }
+    60% { transform: translate(-3px, 1px); opacity: 0.85; }
+    70% { transform: translate(3px, 1px); opacity: 0.9; }
+    80% { transform: translate(-1px, -1px); opacity: 0.95; }
+    90% { transform: translate(1px, 2px); opacity: 0.9; }
+    100% { transform: translate(1px, -2px); opacity: 0.95; }
 }
 
 @keyframes flash {
@@ -173,16 +275,59 @@ body {
     100% { transform: translate(0, 0); }
 }
 
+
 #lives img.heartpic {
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 45px;
     margin: 0 5px;
     vertical-align: middle;
 }
 
 .hearts {
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 45px;
     margin: 0 5px;
     vertical-align: middle;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    background-image: url('statsbar.png');
+    background-size: cover;
+}
+
+.stats > #countdown {
+    margin-top: 25px;
+    height: 10vh;
+    grid-area: 1/1/span 1/ span 2;
+    /* background-color: blue; */
+}
+
+#countdown-bar {
+    height: 6vh;
+    width: 90%;
+    margin: 2vh auto;
+    border: 2px solid white;
+    background-color: #69d949;
+    background-image: url("grass.png");
+    border-radius: 15px;;
+    text-align: center;
+
+}
+
+#scorebar, #livesbar {
+    margin: 0 auto;
+    padding: 10px 50px;
+    height: 10vh;
+    width: 80%;
+    margin-bottom: 25px;
+    color: #ccfccc;
+    background-image: url('statsbar.png');
+    background-position: bottom;
+}
+
+#scorebar  h1{
+    display: inline-block;
 }

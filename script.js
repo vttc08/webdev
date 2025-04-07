@@ -10,6 +10,14 @@ let configuration = {
         gametime: 20   
 }
 
+let cursor = {
+    mole: "mallet",
+    trainer: "hit",
+    python: "shell",
+    golang: "shell",
+    rust: "shell",
+}
+
 let total = configuration.size ** 2; // total number of boxes
 createGrid(configuration.size);
 
@@ -27,7 +35,6 @@ function createGrid(s) {
 
 // Customized Configuration
 let config = document.getElementById("config");
-config.style.opacity = 0.8;
 config.style.pointerEvents = "initial";
 let start = document.getElementById("start");
 let time = document.getElementById("time"); // idk why putting it here works but for size it doesn't
@@ -47,6 +54,10 @@ start.addEventListener("click", function() {
     startTimer();
     timeLeft = gametime;
     isPaused = false;
+    let mole_theme = document.getElementById("mole_theme");
+    cursorStyle = cursor[mole_theme.value];
+    grid.style.cursor = `url("${cursorStyle}.png"), auto`;
+    updateTheme(mole_theme.value);
 
     //remove heart every time a mole is not clicked
     lives = 3;
@@ -60,12 +71,24 @@ let locked = false;
 let boxes = document.getElementsByClassName("box");
 let body = document.getElementsByTagName("body");
 let shake = document.querySelector(".shake");
+let cursorStyle = "hit";
+// let moleStyle = "trainer";
+function updateTheme(moleStyle) {
+    var r = document.querySelector(':root');
+    var rs = getComputedStyle(r);
+    r.style.setProperty('--url', `url("${moleStyle}.png")`);
+};
+
 
 grid.addEventListener("click", function(e) {
+    grid.style.cursor = `url("${cursorStyle}-hit.png"), auto`;
     if (!e.target.className.includes("box")) {
         console.log(e.target.className);
         wrong(e.target);
-    }
+    } 
+    setTimeout(() => {
+        grid.style.cursor = `url("${cursorStyle}.png"), auto`;
+    }, 250);
 })
 function initiateClock() {
     let gameClock = setInterval(() => {
@@ -143,7 +166,7 @@ function wrong(t) {
         shake.classList.remove("shake-animation");
         t.removeAttribute('id');
         locked = false;
-        shake.style.cursor = 'auto';
+        shake.style.cursor = `url("${cursorStyle}.png"), auto`;;
     }, 1000);
     
     updateScore(-1);
@@ -215,21 +238,27 @@ function pauseAttribute(v) {
         pause.style.pointerEvents= "initial";
         menuOuter.style.pointerEvents = "initial";
     } else if (v == "resume") {
-        pause.style.opacity = 0.1;
+        pause.style.opacity = 0;
         pause.style.pointerEvents= "none";
         menuOuter.style.pointerEvents = "none";
     }
 }
 
 let giantMoleAppeared = false;
+let cdBar = document.getElementById("countdown-bar");
+// bar originally starts at width 90%
 function startTimer(){
     let timer = setInterval(() => {
         if (!isPaused) {
             timeLeft--;
-            console.log(thescore + "is the score");
         } else {
         }
         t.innerHTML = timeLeft;
+        cdBar.style.width = `${(timeLeft / gametime) * 90}%`;
+        if (timeLeft < 5) {
+            cdBar.style.backgroundColor = "red";
+            cdBar.style.backgroundImage = "none";
+        }
         if (timeLeft <= 0) {
             clearInterval(timer);
             endGame();
