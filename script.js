@@ -1,5 +1,7 @@
 let cur_rand = 1;
 
+let lives = 3;
+
 // Initial Configuration
 let configuration = {
     
@@ -45,6 +47,10 @@ start.addEventListener("click", function() {
     startTimer();
     timeLeft = gametime;
     isPaused = false;
+
+    //remove heart every time a mole is not clicked
+    lives = 3;
+    updateLives();
 })
 
 
@@ -125,6 +131,10 @@ function setRandom() {
 }
 
 function wrong(t) {
+    if (locked) return;
+    lives--;
+    updateLives();
+    
     shake.classList.add("shake-animation");
     t.setAttribute('id' , 'wrong');
     locked = true;
@@ -135,6 +145,7 @@ function wrong(t) {
         locked = false;
         shake.style.cursor = 'auto';
     }, 1000);
+    
     updateScore(-1);
     // setTimeout(() => {
     //     body[0].style.animationPlayState = 'paused';
@@ -144,7 +155,23 @@ function wrong(t) {
     //     body[0].style.cursor = 'auto'
     // }, 1500);
     
-};
+    if (lives <= 0) {
+        endGame();
+    }
+}
+
+function updateLives() {
+    let livesContainer = document.getElementById("lives");
+    livesContainer.innerHTML = ""; // clear previous hearts
+
+    for (let i = 0; i < lives; i++) {
+        let img = document.createElement("img");
+        img.src = "heart.png"; 
+        img.classList.add("heartpic");
+        livesContainer.appendChild(img);
+    }
+}
+
 
 // let boxes = document.getElementsByClassName("box");
 

@@ -172,3 +172,17 @@ body {
     80% { transform: translate(5px, 5px); }
     100% { transform: translate(0, 0); }
 }
+
+#lives img.heartpic {
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    vertical-align: middle;
+}
+
+.hearts {
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    vertical-align: middle;
+}
