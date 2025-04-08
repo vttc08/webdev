@@ -4,6 +4,13 @@
     font-family: 'roboto', sans-serif;
 }
 
+:root {
+    --url: url("mole.png");
+    --lightgreen: #69d949;
+    --whitegreen: #ccfccc;
+}
+
+/* Media query, disable start button if unusual window size.*/
 @media screen and (max-width: 400px), (max-height: 750px) {
     #start {
         display: none;
@@ -12,7 +19,7 @@
         content: "The game cannot run in this window, please use a larger window.";
     }
 }
-
+/* Main flexbox container, consists of images and game grid.*/
 .flex {
     display: flex;
     justify-content: center;
@@ -24,6 +31,8 @@
     background-image: url("texture.png");
     background-size: cover;
 }
+
+/* Main game grid, customizable in JS */
 .grid {
     display: grid;
     grid-template-columns: repeat(3,1fr);
@@ -35,10 +44,12 @@
     position: relative;
     grid-gap: 5px;
     border: 10px inset rgba(0, 0, 0,0.5);
-    background: #69d949;
+    background: var(--lightgreen);
     cursor: url("mallet.png"), auto;
     flex-shrink: 0;
 }
+
+/* Game grid items */
 .box {
     color: red;
     border: 0.5px solid greenyellow;
@@ -47,17 +58,15 @@
     background-size: cover;
     max-width: 20vh;
 }
-:root {
-    --url: url("mole.png");
-    --blue: #0000ff;
-}
+
+/* Mole appearance */
 #selected {
     background-image: var(--url);
-    /* background-image: url("mole.png"); */
     background-position: center;
     background-size: cover;
 }
 
+/* Mole fade animation */
 .selected-ain {
     animation: fade-in 1s linear;
     animation-iteration-count: infinite;
@@ -78,30 +87,22 @@
     100% { opacity: 0; }
 }
 
-input {
-    width: 75%;
-    padding: 1%;
-    margin: 1%;
-}
-#wrong {
-    background-color: red;
-    transition: background-color 0.25s linear;
-}
-
+/* Wrapper for the game menu, for positions to work */
 #menu-outer,#giant-outer{
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: absolute; /* Overlay on top of main game */
     pointer-events: none;
     z-index: 1;
 }
-#giant-outer {
 
+#giant-outer {
     z-index: 0;
 }
 
+/* For both config and pause menu */
 .menu {
     background-image: url("menu.png");
     background-size: cover;
@@ -111,38 +112,34 @@ input {
     left: 50%;
     margin: 0 auto;
     transform: translate(-50%, -50%);
-    border-radius: 15px;  /* 圆角效果 */
+    border-radius: 15px;  /* 圆角效果 round border */
 }
 
+/* Configuration menu */
 #config {
-    background-color: #86ef54;  /* 确保红色背景 */
-    opacity: 1;  /* 完全不透明 */
-    padding: 20px;  /* 添加内边距 */
-
+    background-color: #86ef54;  /* 确保红色背景 red bg */
+    opacity: 1;  /* 完全不透明 opaque */
+    padding: 20px;  /* 添加内边距 add space*/
     margin-top: -60px; 
     width: 60%;
 }
 
-#config > select, input[type="text"] {
-    font-size: 1.5rem;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    background-color: #ccfccc;
-    width: 75%;
-}
-
-#config > input {
-    background-color: #ccfccc;
+/* Input boxes */
+#config > input, select{
+    background-color: var(--whitegreen);
     color: #333;
     border: 2px solid black;
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
     font-size: 1.5rem;
+    width: 85%;
+    padding: 1%;
+    margin: 1%;
 }
 
-#config > button {
+/* Menu button hover effect */
+#config > button, .pause-wrapper button {
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 2rem;
     padding: 10px 20px;
@@ -152,12 +149,13 @@ input {
     background-color: #1be7ff;
     box-shadow: #333 5px 5px 0px;
 }
-#config > button:hover {
+#config > button:hover, .pause-wrapper button:hover {
     background-color: #ffb800;
     box-shadow: #333 5px 5px 0px;
     cursor: pointer;
 }
 
+/* Pause Menu */
 #pause {
     height: 85%;
     width: 60%;
@@ -168,6 +166,7 @@ input {
     text-align: center;;
 }
 
+/* Pause flexbox for vertically and centering the content */
 .pause-wrapper {
     z-index: 2;
     display: flex;
@@ -176,28 +175,13 @@ input {
     align-items: space-around;
     height: 100%;
 }
-.pause-wrapper button {
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 2rem;
-    padding: 10px 20px;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 15px;
-    background-color: #1be7ff;
-    box-shadow: #333 5px 5px 0px;
-    margin: 30px 0;
-}
 
-.pause-wrapper button:hover {
-    background-color: #ffb800;
-    box-shadow: #333 5px 5px 0px;
-    cursor: pointer;
-}
-
-
+/* Prevent scrolling */
 body {
     overflow: hidden;
 }
+
+/* Filler images for the game grid */
 .filler {
     height:100%;
     width: 500px;
@@ -210,17 +194,14 @@ body {
     background-image: url('filler2.png');
     background-size: cover;
 }
-.shake {
-    /* Start the shake animation and make the animation last for 0.5 seconds */
 
+/* Shake Animation */
+.shake {
     overflow:hidden;
-    }
+}
 
 .shake-animation {
-    /* Start the shake animation and make the animation last for 0.5 seconds */
     animation: shake 1s;
-    
-    /* When the animation is finished, start again */
     animation-iteration-count: infinite;
     animation-play-state: running;
 
@@ -240,12 +221,7 @@ body {
     100% { transform: translate(1px, -2px); opacity: 0.95; }
 }
 
-@keyframes flash {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }    
-}
-
+/* Giant mole */
 #giant {
     background-image: url("mole.png");
     background-position: center;
@@ -261,7 +237,6 @@ body {
     transition: top 0.5s ease, left 0.5s ease;
 }
 
-
 #giant:active {
     animation: giant-shake 0.2s linear;
 }
@@ -275,7 +250,7 @@ body {
     100% { transform: translate(0, 0); }
 }
 
-
+/* Lives image */
 #lives img.heartpic {
     width: 45px;
     height: 45px;
@@ -290,6 +265,7 @@ body {
     vertical-align: middle;
 }
 
+/* Grid for stat menu */
 .stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -298,6 +274,7 @@ body {
     background-size: cover;
 }
 
+/* Countdown bar wrapper */
 .stats > #countdown {
     margin-top: 25px;
     height: 10vh;
@@ -305,6 +282,7 @@ body {
     /* background-color: blue; */
 }
 
+/* Countdown bar */
 #countdown-bar {
     height: 6vh;
     width: 90%;
@@ -317,6 +295,7 @@ body {
 
 }
 
+/* Score and Lives */
 #scorebar, #livesbar {
     margin: 0 auto;
     padding: 10px 50px;
@@ -328,6 +307,7 @@ body {
     background-position: bottom;
 }
 
-#scorebar  h1{
+/* Make text style inline */
+#scorebar h1{
     display: inline-block;
 }
