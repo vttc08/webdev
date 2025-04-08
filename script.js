@@ -40,28 +40,62 @@ let start = document.getElementById("start");
 let time = document.getElementById("time"); // idk why putting it here works but for size it doesn't
 let gametime = document.getElementById("gametime");
 // Initialize everything when clicking start button
-start.addEventListener("click", function() {
-    let size = document.getElementById("size");
-    size = parseInt(size.value); // grid size
-    time = parseInt(time.value); // time interval for mole to appear
-    gametime = parseInt(gametime.value); // game time
+
+//I broke start.addEventListener into functions to improve efficiency
+
+//reads size, time, gametime
+function getConfigValues() {
+    return {
+        size: parseInt(document.getElementById("size").value),
+        time: parseInt(document.getElementById("time").value),
+        gametime: parseInt(document.getElementById("gametime").value)
+    };
+}
+
+//hides configuration when added to an eventListener function
+function hideConfigMenu() {
     config.style.display = "none";
-    config.style.pointerEvents = "none"; // hide the config menu
-    createGrid(size);
-    total = size ** 2; // re-initialize the total number of boxes
-    startEventListener(); // add event listeners to the boxes
-    gc(); // start the game clock (for mole to appear)
-    startTimer(); // start the countdown timer
-    timeLeft = gametime;
-    isPaused = false;
-    let moleTheme = document.getElementById("mole_theme");
-    cursorStyle = cursor[moleTheme.value];
-    grid.style.cursor = `url("${cursorStyle}.png"), auto`;
-    updateTheme(moleTheme.value); // Update cursor and mole style
-    //remove heart every time a mole is not clicked
+    config.style.pointerEvents = "none";
+}
+
+//changes lives values and resets them back to 3
+function resetLives() {
     lives = 3;
     updateLives();
-})
+}
+
+//choose whichever cursor/target you want
+function setCursorAndTheme() {
+    const moleTheme = document.getElementById("mole_theme").value;
+    cursorStyle = cursor[moleTheme];
+    grid.style.cursor = `url("${cursorStyle}.png"), auto`;
+    updateTheme(moleTheme);
+}
+
+//initializes the game based on the player's preferences
+function startGame(configValues) {
+    createGrid(configValues.size);
+    total = configValues.size ** 2;
+    time = configValues.time;
+    gametime = configValues.gametime;
+    timeLeft = gametime;
+    isPaused = false;
+
+    startEventListener();
+    gc();
+    startTimer();
+
+    resetLives();
+    setCursorAndTheme();
+}
+
+//hides configuration when start is clicked
+start.addEventListener("click", function() {
+    const configValues = getConfigValues();
+    hideConfigMenu();
+    startGame(configValues);
+});
+
 
 // Initialize main game elements
 let grid = document.querySelector(".grid");
